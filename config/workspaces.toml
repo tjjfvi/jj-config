@@ -1,0 +1,44 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.ws = ["bash0", 'jj ws-"$0" "$@"']
+
+aliases.ws-init = ["bash", '''
+cd `jj root`
+mkdir .ws
+echo "*" > .ws/.gitignore
+jj workspace rename root
+ln -s `jj root` `jj root`/.ws/root
+''']
+
+aliases.ws-root = ["bash", '''
+JJ_ROOT=`jj root`
+if [[ "$JJ_ROOT" == *"/.ws/"* ]]; then
+  jj root -R "$JJ_ROOT"/..
+else
+  echo "$JJ_ROOT"
+fi
+''']
+
+aliases.ws-add = ["bash", '''
+cd `jj ws-root`
+jj workspace add ".ws/$1"
+''']
+
+aliases.ws-forget = ["bash", '''
+cd `jj ws-root`
+jj workspace forget "$1"
+''']
+
+aliases.ws-remove = ["bash", '''
+cd `jj ws-root`
+jj workspace forget "$1"
+rm -rf ".ws/$1"
+''']
+
+aliases.up = ["workspace", "update-stale"]
+
+aliases.'@' = ["bash0", '''
+set -e
+cd `jj ws-root`/.ws/"$0"
+jj "$@"
+''']
