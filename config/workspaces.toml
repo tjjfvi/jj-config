@@ -39,7 +39,6 @@ aliases.up = ["workspace", "update-stale"]
 
 aliases.'@' = ["bash0", '''
 set -e
-cd `jj ws-root`
-cd .ws/"$0"
+cd `jj ws-root`/.ws/"$0"
 jj "$@"
 ''']
