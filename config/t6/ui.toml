@@ -21,17 +21,25 @@ colors."working_copy bookmark" = "#3498db"
 colors."working_copy bookmarks" = "#3498db"
 colors."working_copy local_bookmarks" = "#3498db"
 colors."working_copy remote_bookmarks" = "#3498db"
+colors."private" = "#aaaaaa"
 
 template-aliases.description_placeholder = 'label("anonymous", "...")'
 
 template-aliases.'commit_description(commit)' = '''
 concat(
   if(commit.conflict(), label("conflict", "*")),
-  label(if(commit.empty(), "empty"),
-    if(commit.description(),
-      commit.description().first_line(),
-      changes(commit),
-    )
+  label(
+    separate(" ",
+      if(commit.empty(), "empty"),
+      if(commit.contained_in("wip()"), "private"),
+    ),
+    separate(" ",
+      if(commit.contained_in("wip()"), "#"),
+      if(commit.description(),
+        commit.description().first_line(),
+        changes(commit),
+      ),
+    ),
   )
 )
 '''
