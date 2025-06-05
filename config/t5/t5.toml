@@ -34,14 +34,7 @@ aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 aliases.prc = ["bash", "gh pr create -H `jj bn`"]
 
 
-aliases.bn = [
-  "log",
-  "-r",
-  "heads(::@ & bookmarks())",
-  "-T",
-  "bn_local",
-  "--no-graph",
-]
+aliases.bn = [ "log", "-r", "heads(::@ & bookmarks())", "-T", "bn_local", "--no-graph", ]
 template-aliases.'bn_local' = "self.local_bookmarks().map(|x| x.name())"
 
 revset-aliases.log_builds = "up_to((@ | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags()) | latest_builds) ~ ignore ~ stashed)"
