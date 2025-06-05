@@ -1,3 +1,4 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 aliases.ws = ["bash0", 'jj ws-"$0" "$@"']
 
