@@ -1,0 +1,14 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.prompt = ["pure", "log", "-r", "@", "-T", "prompt", "--no-graph", "--color", "always"]
+template-aliases.'prompt' = '''
+label("prompt", separate(" ",
+  self.description().first_line(),
+  changes(self),
+  self.local_bookmarks(),
+  if(self.local_bookmarks().len() == 0,
+    self.parents().map(|x| x.local_bookmarks().map(|y| concat(y, "+"))),
+  ),
+  format_short_change_id_with_hidden_and_divergent_info(self),
+))
+'''

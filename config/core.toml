@@ -1,0 +1,51 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+core.fsmonitor = "watchman"
+core.watchman.register-snapshot-trigger = true
+
+git.write-change-id-header = true
+
+aliases.jj = ["util", "exec", "--", "jj"]
+aliases.bash = ["util", "exec", "--", "bash", "-c"]
+aliases.revset-to = ["bash", '''
+for arg; do
+  jj log --reversed --no-graph -T "$0" -r "$arg"
+done
+''']
+aliases.pure = ["--ignore-working-copy"]
+aliases.color = ["--color=always"]
+aliases.force-track = ["--config", "snapshot.max-new-file-size=0", "st"]
+aliases.cur-op = ["op", "log", "-n1", "--no-graph", "-T", "id.short()"]
+
+aliases.revset-changes = ["revset-to", 'change_id ++ "\n"']
+aliases.revset-commit = ["bash", 'jj revset-to commit_id "latest($0, 1)"']
+aliases.revset-bookmarks = [
+  "revset-to",
+  'local_bookmarks.map(|x| concat(x, "\n"))',
+]
+
+aliases.transaction = ["bash", '''
+OP_START=`jj cur-op`
+jj "$@"
+jj op restore $OP_START
+jj op restore @-
+''', ""]
+
+revset-aliases.'ignore()' = 'none()'
+revset-aliases.'anon()' = 'description(exact:"")'
+revset-aliases.'subgraph(x)' = 'fork_point(x)::x'
+revset-aliases.'off(x)' = 'x:: ~ x'
+
+template-aliases.'len(template)' = 'stringify(template).len()'
+template-aliases.'repeat(str, int)' = 'stringify(pad_end(int, "", str))'
+template-aliases.'spaces(int)' = 'repeat(" ", int)'
+
+template-aliases.'either_side(width, left, right)' = '''
+concat(
+  left,
+  pad_end(1, spaces(width).substr(0, width).substr(len(left), -len(right))),
+  right,
+)
+'''
+
+template-aliases.'width' = '80'

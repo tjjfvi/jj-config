@@ -1,0 +1,7 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.squish = ["bash", 'jj squash -f "($0)+::($1)" -t $0']
+aliases.squall = ["transaction", "bash", '''
+for arg in $(jj revset-changes "$@"); do jj squash -r "$arg"; done
+''']
+aliases.squelch = ["squall", "anon() & anon()+"]

@@ -1,0 +1,6 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.save = ["bash", '''
+jj op log -n 1 --no-graph -T 'time.end() ++ " " ++ id.short() ++ "\n"' --color always >> .jj/op-saves
+''']
+aliases.saves = ["bash", 'cat .jj/op-saves']
