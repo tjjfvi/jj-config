@@ -34,6 +34,10 @@ aliases.enc = ["en", "--conflict"]
 aliases.ep = ["prev", "-e"]
 aliases.epc = ["ep", "--conflict"]
 
+aliases.n = ["new"]
+aliases.nn = ["new", "-A @"]
+aliases.np = ["new", "-B @"]
+
 aliases.d = ["diff"]
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 
