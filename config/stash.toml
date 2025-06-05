@@ -2,7 +2,7 @@
 
 aliases.stash = ["new", "--no-edit", "-m", "@stash"]
 aliases.stashed = ["log", "--no-graph", "-r", "stashed()"]
-aliases.unstash = ["bash", 'jj abandon "stashing($0)"']
+aliases.unstash = ["bash", 'jj abandon "stashing($1)"']
 
 revset-aliases.'stasher()' = 'description("@stash")'
 revset-aliases.'stashed()' = 'stasher()-'
