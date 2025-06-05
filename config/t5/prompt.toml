@@ -1,0 +1,37 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.prompt_left = [
+  "log",
+  "-r",
+  "@",
+  "-T",
+  "prompt_left",
+  "--no-graph",
+  "--color=always",
+]
+aliases.prompt_right = [
+  "op",
+  "log",
+  "-n1",
+  "-T",
+  "prompt_right",
+  "--no-graph",
+  "--ignore-working-copy",
+]
+
+template-aliases.'prompt_left' = '''
+label("prompt", separate(" ",
+  format_short_change_id_with_hidden_and_divergent_info(self),
+    self.revset("_prev_bm(self-)").map(|x| x.local_bookmarks().map(|y| concat(y, "::"))),
+    self.local_bookmarks(),
+  if(false && self.local_bookmarks().len() == 0,
+    self.parents().map(|x| x.local_bookmarks().map(|y| concat(y, "+"))),
+  ),
+  changes(self),
+  label("description", self.description().first_line()),
+))
+'''
+
+template-aliases.'prompt_right' = '''
+label("prompt_right", stringify(id.short()))
+'''
