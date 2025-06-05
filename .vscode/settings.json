@@ -1,0 +1,11 @@
+{
+  "cSpell.words": [
+    "fsmonitor",
+    "preprompt",
+    "revset",
+    "revsets"
+  ],
+  "[toml]": {
+    "editor.defaultFormatter": "none"
+  },
+}
