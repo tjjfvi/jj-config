@@ -22,8 +22,9 @@ aliases.prompt_right = [
 template-aliases.'prompt_left' = '''
 label("prompt", separate(" ",
   format_short_change_id_with_hidden_and_divergent_info(self),
-    self.revset("_prev_bm(self-)").map(|x| x.local_bookmarks().map(|y| concat(y, "::"))),
-    self.local_bookmarks(),
+  self.revset("heads(::@- & bookmarks())").map(|h| h.local_bookmarks().map(|b| concat(b, "::"))),
+  self.local_bookmarks(),
+  self.revset("heads(@+:: & bookmarks())").map(|h| h.local_bookmarks().map(|b| concat("::", b))),
   if(false && self.local_bookmarks().len() == 0,
     self.parents().map(|x| x.local_bookmarks().map(|y| concat(y, "+"))),
   ),
