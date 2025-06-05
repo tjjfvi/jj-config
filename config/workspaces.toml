@@ -1,0 +1,31 @@
+
+aliases.ws-init = ["bash", '''
+cd `jj root`
+mkdir .ws
+echo "*" > .ws/.gitignore
+jj workspace rename root
+ln -s `jj root` `jj root`/.ws/root
+''']
+
+aliases.ws-root = ["bash", '''
+JJ_ROOT=`jj root`
+if [[ "$JJ_ROOT" == *"/.ws/"* ]]; then
+  jj root -R "$JJ_ROOT"/..
+else
+  echo "$JJ_ROOT"
+fi
+''']
+
+aliases.ws-new = ["bash", '''
+cd `jj ws-root`
+jj workspace add ".ws/$1"
+''']
+
+aliases.up = ["workspace", "update-stale"]
+
+aliases.ws = ["bash0", '''
+set -e
+cd `jj ws-root`
+cd .ws/"$0"
+jj "$@"
+''']
