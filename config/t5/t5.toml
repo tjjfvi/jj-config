@@ -28,6 +28,12 @@ aliases.push = ["git", "push"]
 aliases.fetch = ["git", "fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
 
+aliases.e = ["edit"]
+aliases.en = ["next", "-e"]
+aliases.enc = ["en", "--conflict"]
+aliases.ep = ["prev", "-e"]
+aliases.epc = ["ep", "--conflict"]
+
 aliases.d = ["diff"]
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 
