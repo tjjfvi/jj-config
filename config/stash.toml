@@ -1,6 +1,6 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
-aliases.stash = ["new", "--no-edit", "-m", "@stash", "-r"]
+aliases.stash = ["new", "--no-edit", "-m", "@stash"]
 aliases.stashed = ["log", "--no-graph", "-r", "stashed()"]
 aliases.unstash = ["bash", 'jj abandon "stashing($0)"']
 
