@@ -25,6 +25,8 @@ aliases.revset-bookmarks = [
   'local_bookmarks.map(|x| concat(x, "\n"))',
 ]
 
+aliases.preprompt = ["log", "-r @"]
+
 aliases.transaction = ["bash", '''
 OP_START=`jj cur-op`
 jj "$@"
