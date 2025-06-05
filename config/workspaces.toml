@@ -1,4 +1,6 @@
 
+aliases.ws = ["bash0", 'jj ws-"$0" "$@"']
+
 aliases.ws-init = ["bash", '''
 cd `jj root`
 mkdir .ws
@@ -16,14 +18,25 @@ else
 fi
 ''']
 
-aliases.ws-new = ["bash", '''
+aliases.ws-add = ["bash", '''
 cd `jj ws-root`
 jj workspace add ".ws/$1"
 ''']
 
+aliases.ws-forget = ["bash", '''
+cd `jj ws-root`
+jj workspace forget "$1"
+''']
+
+aliases.ws-remove = ["bash", '''
+cd `jj ws-root`
+jj workspace forget "$1"
+rm -rf ".ws/$1"
+''']
+
 aliases.up = ["workspace", "update-stale"]
 
-aliases.ws = ["bash0", '''
+aliases.'@' = ["bash0", '''
 set -e
 cd `jj ws-root`
 cd .ws/"$0"
