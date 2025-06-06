@@ -6,7 +6,8 @@ user.email = "vjjft@vjjft.com"
 ui.default-command = "log"
 ui.movement.edit = true
 
-git.private-commits = "@ | description(glob:'wip:*') | description(glob:'private:*')"
+revset-aliases.'private()' = "anon() ~ root() | @ | description(glob:'wip:*') | description(glob:'private:*')"
+git.private-commits = "private()::"
 
 aliases.preprompt = ["log"]
 
