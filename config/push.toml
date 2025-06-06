@@ -1,3 +1,4 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 revset-aliases.'private()' = 'anon()'
 revset-aliases.'push_head(x)' = 'latest(heads(::x- ~ private()::))'
