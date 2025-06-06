@@ -13,7 +13,7 @@ colors."changes copied" = "blue"
 colors."changes renamed" = "cyan"
 colors."change_id" = "blue"
 colors."working_copy change_id" = "blue"
-"prompt description" = { italic = true, fg = "white" }
+colors."prompt description" = { italic = true, fg = "white" }
 # colors."bookmark" = "#3498db"
 # colors."bookmarks" = "#3498db"
 # colors."local_bookmarks" = "#3498db"
