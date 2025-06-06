@@ -17,6 +17,7 @@ revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk() | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
 aliases.cm = ["commit", "-m"]
+aliases.cnote = ["bash", "jj new -B @ --no-edit -m \"// $@\""]
 aliases.de = ["desc"]
 aliases.den = ["desc", "-r @+"]
 aliases.dep = ["desc", "-r @-"]
