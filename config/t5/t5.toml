@@ -1,0 +1,56 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+user.name = "vjjft"
+user.email = "vjjft@vjjft.com"
+
+ui.default-command = "log"
+ui.movement.edit = true
+
+git.private-commits = "@ | description(glob:'wip:*') | description(glob:'private:*')"
+
+aliases.preprompt = ["log"]
+
+templates.log = "log"
+revsets.log = "log"
+revset-aliases.log = "subgraph(log_heads)"
+revset-aliases.log_heads = "(@ | trunk() | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
+
+aliases.cm = ["commit", "-m"]
+aliases.dm = ["desc", "-m"]
+aliases.bs = ["bookmark", "set", "-B", "-r"]
+aliases.bp = [ "bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-", ]
+aliases.bc = ["bookmark", "create", "-r", "@-"]
+aliases.ab = ["abandon"]
+aliases.re = ["rebase"]
+aliases.l = ["log", "-r"]
+aliases.h = ["log", "-r", "::@"]
+aliases.push = ["git", "push"]
+aliases.fetch = ["git", "fetch"]
+aliases.log-full = ["log", "-T", "builtin_log_compact"]
+
+aliases.d = ["diff"]
+aliases.hd = ["log", "-r", "dev::@", "--reversed"]
+
+aliases.prc = ["bash", "gh pr create -H `jj bn`"]
+
+
+aliases.bn = [
+  "log",
+  "-r",
+  "heads(::@ & bookmarks())",
+  "-T",
+  "bn_local",
+  "--no-graph",
+]
+template-aliases.'bn_local' = "self.local_bookmarks().map(|x| x.name())"
+
+revset-aliases.log_builds = "up_to((@ | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags()) | latest_builds) ~ ignore ~ stashed)"
+revset-aliases.build_tag = 'tags(regex:"^v")'
+revset-aliases.latest_builds = 'build_tag ~ (::build_tag--)+'
+revset-aliases.'immutable_heads()' = 'present(trunk()) | tags()'
+revset-aliases.'p' = '@-'
+revset-aliases.'p(n)' = 'roots(ancestors(@, n))'
+revset-aliases.'p(r, n)' = 'roots(ancestors(r, n))'
+revset-aliases.tip = 'heads(@::)'
+revset-aliases._prev_bm = "_prev_bm(@)"
+revset-aliases.'_prev_bm(r)' = "heads(::r & bookmarks())"

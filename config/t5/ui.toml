@@ -1,0 +1,124 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+colors.empty = { fg = "white", italic = true }
+colors."working_copy empty" = { fg = "white", italic = true }
+colors."empty anonymous" = { fg = "bright black" }
+colors."working_copy empty anonymous" = { fg = "bright black" }
+colors."operation tags" = { fg = "white" }
+colors."operation description" = { fg = "bright black" }
+colors."changes modified" = "yellow"
+colors."changes added" = "green"
+colors."changes removed" = "red"
+colors."changes copied" = "blue"
+colors."changes renamed" = "cyan"
+colors."change_id" = "blue"
+colors."working_copy change_id" = "blue"
+"prompt description" = { italic = true, fg = "white" }
+# colors."bookmark" = "#3498db"
+# colors."bookmarks" = "#3498db"
+# colors."local_bookmarks" = "#3498db"
+# colors."remote_bookmarks" = "#3498db"
+# colors."working_copy bookmark" = "#3498db"
+# colors."working_copy bookmarks" = "#3498db"
+# colors."working_copy local_bookmarks" = "#3498db"
+# colors."working_copy remote_bookmarks" = "#3498db"
+
+template-aliases.description_placeholder = 'label("anonymous", "...")'
+
+template-aliases.'commit_description(commit)' = '''
+concat(
+  if(commit.conflict(), label("conflict", "*")),
+  separate(' ',
+  if(commit.current_working_copy() || commit.description() == "", changes(commit)),
+  label(if(commit.empty(), "empty"),
+      commit.description().first_line(),
+  )
+  )
+)
+'''
+
+template-aliases.'format_root_commit(root)' = 'separate(" ", format_short_change_id(root.change_id()), root.bookmarks())'
+
+template-aliases.log = '''
+if(root,
+  format_root_commit(self),
+  label(if(current_working_copy, "working_copy"),
+    separate(" ",
+      format_short_change_id_with_hidden_and_divergent_info(self),
+      if(hidden || divergent, format_short_commit_id(commit_id)),
+      bookmarks,
+      tags.filter(|x| !x.name().starts_with('latest/')),
+      working_copies,
+      commit_description(self),
+    ),
+  )
+)
+++ "\n"
+'''
+
+template-aliases.'format_commit_summary_with_refs(commit, refs)' = '''
+separate(" ",
+  format_short_change_id_with_hidden_and_divergent_info(commit),
+  format_short_commit_id(commit.commit_id()),
+  refs,
+  commit_description(commit),
+)
+'''
+
+template-aliases.builtin_log_detailed = '''
+concat(
+  "Commit ID: " ++ commit_id.shortest(1000) ++ "\n",
+  "Change ID: " ++ change_id.shortest(1000) ++ "\n",
+  surround("Bookmarks: ", "\n", separate(" ", local_bookmarks, remote_bookmarks)),
+  surround("Tags:      ", "\n", tags),
+  "Author:    " ++ format_detailed_signature(author) ++ "\n",
+  "Committer: " ++ format_detailed_signature(committer)  ++ "\n",
+  if(config("ui.show-cryptographic-signatures").as_boolean(),
+    "Signature: " ++ format_detailed_cryptographic_signature(signature) ++ "\n"),
+  "\n",
+  indent("    ",
+    coalesce(description, label(if(empty, "empty"), description_placeholder) ++ "\n")),
+  "\n",
+)
+'''
+
+template-aliases.'format_operation(op)' = '''
+concat(
+  either_side(width - 3,
+    separate(" ",
+      format_short_operation_id(op.id()),
+      op.tags().remove_prefix("args: "),
+    ),
+    op.time().end().ago(),
+  ),
+  "\n  ",
+  label("description", truncate_end(width - 5, op.description(), "...")),
+)
+'''
+
+template-aliases.'format_snapshot_operation(op)' = '''
+either_side(width - 3,
+  format_short_operation_id(op.id()),
+  op.time().end().ago(),
+)
+'''
+
+template-aliases.'changes(commit)' = '''
+label("changes", separate(" ",
+  fmt_change_count(commit, "modified", "·"),
+  fmt_change_count(commit, "added", "+"),
+  fmt_change_count(commit, "removed", "-"),
+  fmt_change_count(commit, "renamed", ">"),
+  fmt_change_count(commit, "copied", "<"),
+))
+'''
+
+template-aliases.'fmt_change_count(commit, kind, sym)' = '''
+if(change_count(commit, kind) != 0,
+  label(kind, concat(sym, change_count(commit, kind)))
+)
+'''
+
+template-aliases.'change_count(commit, kind)' = '''
+commit.diff().files().filter(|x| x.status() == kind).len()
+'''
