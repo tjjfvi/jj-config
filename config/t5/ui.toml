@@ -6,11 +6,16 @@ colors."empty anonymous" = { fg = "bright black" }
 colors."working_copy empty anonymous" = { fg = "bright black" }
 colors."operation tags" = { fg = "white" }
 colors."operation description" = { fg = "bright black" }
+colors."description" = "white"
 colors."changes modified" = "yellow"
 colors."changes added" = "green"
 colors."changes removed" = "red"
 colors."changes copied" = "blue"
 colors."changes renamed" = "cyan"
+colors."flag_empty" = "bright black"
+colors."flag_private" = "bright black"
+colors."flag_wc" = "green"
+colors."is_note" = { italic = true, fg = "bright black" }
 colors."change_id" = "blue"
 colors."working_copy change_id" = "blue"
 colors."prompt description" = { italic = true, fg = "white" }
@@ -25,14 +30,42 @@ colors."prompt description" = { italic = true, fg = "white" }
 
 template-aliases.description_placeholder = 'label("anonymous", "...")'
 
+template-aliases.'first_line(commit)' = '''
+commit.description().first_line()
+'''
+
+template-aliases.'flag_empty(commit)' = '''
+if(commit.empty(), label("flag_empty", "-"))
+'''
+
+template-aliases.'is_private(commit)' = '''
+commit.contained_in("private()")
+'''
+template-aliases.'flag_private(commit)' = '''
+if(is_private(commit), label("flag_private", "#"))
+'''
+
+template-aliases.'flag_wc(commit)' = '''
+if(commit.current_working_copy(), label("flag_wc", "@"))
+'''
+
+template-aliases.'is_note(commit)' = '''
+first_line(commit).starts_with("// ")
+'''
+
 template-aliases.'commit_description(commit)' = '''
-concat(
+separate(" ",
   if(commit.conflict(), label("conflict", "*")),
-  separate(' ',
+  flag_private(commit),
+  flag_wc(commit),
+  if(!is_note(commit), flag_empty(commit)),
   if(commit.current_working_copy() || commit.description() == "", changes(commit)),
-  label(if(commit.empty(), "empty"),
-      commit.description().first_line(),
-  )
+  label("description",
+    label(if(commit.current_working_copy(),"wc"),
+      label(if(is_note(commit), "is_note"),
+        first_line(commit)
+      )
+    )
   )
 )
 '''
