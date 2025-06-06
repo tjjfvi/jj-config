@@ -30,6 +30,9 @@ aliases.fetch = ["git", "fetch"]
 aliases.f = ["fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
 
+aliases.xx = ["op","restore"]
+aliases.z = ["undo"]
+
 aliases.e = ["edit"]
 aliases.en = ["next", "-e"]
 aliases.enc = ["en", "--conflict"]
