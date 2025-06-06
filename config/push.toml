@@ -11,3 +11,9 @@ for bookmark in `jj revset-bookmarks "${@:-@::}"`; do
   fi
 done
 ''']
+
+aliases.finalize = ["transaction", "bash", '''
+IFS="|"
+jj rebase -r "reachable($*, main..) ~ ::($*)" -d main
+jj abandon "main..($*)"
+''']
