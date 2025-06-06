@@ -17,6 +17,12 @@ revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk() | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
 aliases.cm = ["commit", "-m"]
+aliases.ae = ["transaction", "bash", "R=\"${1:-@}\"; [[ $(jj log -T commit_id -r \"empty() & anon() & ~bookmarks() & $R\") ]] && jj ax \"$R\";"]
+aliases.aen = ["ae", "@+"]
+aliases.aep = ["ae", "@-"]
+aliases.ax = ["transaction", "bash", "R=\"${1:-@}\"; jj abandon -r \"$R\" && { [[ $R = '@' ]] && jj edit @- || true; };"]
+aliases.axn = ["ax", "@+"]
+aliases.axp = ["ax", "@-"]
 aliases.cnote = ["bash", "jj new -B @ --no-edit -m \"// $@\""]
 aliases.de = ["desc"]
 aliases.den = ["desc", "-r @+"]
