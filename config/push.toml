@@ -1,0 +1,13 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+revset-aliases.'private()' = 'anon()'
+revset-aliases.'push_head(x)' = 'latest(heads(::x- ~ private()::))'
+
+aliases.push = ["bash", '''
+for bookmark in `jj revset-bookmarks "${@:-@::}"`; do
+  if [[ -z `jj bookmark list --tracked $bookmark` ]]; then
+    push_head=`jj revset-commit "push_head($bookmark)"`
+    [[ -n "$push_head" ]] && git push -f origin "$push_head:refs/heads/$bookmark"
+  fi
+done
+''']
