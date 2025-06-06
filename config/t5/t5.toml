@@ -43,6 +43,8 @@ aliases.nn = ["new", "-A @"]
 aliases.np = ["new", "-B @"]
 
 aliases.d = ["diff"]
+aliases.q = ["diff", "--stat"]
+aliases.s = ["show"]
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 aliases.ri = ["restore", "-i"]
 
