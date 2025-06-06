@@ -44,6 +44,7 @@ aliases.np = ["new", "-B @"]
 
 aliases.d = ["diff"]
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
+aliases.ri = ["restore", "-i"]
 
 aliases.prc = ["bash", "gh pr create -H `jj bn`"]
 
