@@ -53,9 +53,22 @@ aliases.n = ["new"]
 aliases.nn = ["new", "-A @"]
 aliases.np = ["new", "-B @"]
 
-aliases.d = ["diff"]
-aliases.q = ["diff", "--stat"]
-aliases.s = ["show"]
+aliases.d = ["diff", "--stat"]
+aliases.dn = ["d", "-r @+"]
+aliases.dp = ["d", "-r @-"]
+
+aliases.dd = ["diff"]
+aliases.ddn = ["dd", "-r @+"]
+aliases.ddp = ["dd", "-r @-"]
+
+aliases.s = ["show", "--stat"]
+aliases.sn = ["s","@+"]
+aliases.sp = ["s","@-"]
+
+aliases.ss = ["show"]
+aliases.ssn = ["ss","@+"]
+aliases.ssp = ["ss","@-"]
+
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 aliases.ri = ["restore", "-i"]
 
