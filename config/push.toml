@@ -1,7 +1,7 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
 revset-aliases.'private()' = 'anon() ~ root()'
-revset-aliases.'push_head(x)' = 'latest(heads(::x- ~ private()::))'
+revset-aliases.'push_head(x)' = 'fork_point(heads(::x- ~ private()::))'
 
 aliases.push = ["bash", '''
 for bookmark in `jj revset-bookmarks "${@:-@::}"`; do
