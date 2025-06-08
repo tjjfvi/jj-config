@@ -28,10 +28,28 @@ aliases.revset-bookmarks = [
 aliases.preprompt = ["log", "-r @"]
 
 aliases.transaction = ["bash", '''
+PREV_WATCHMAN_STATE=`jj config get core.watchman.register-snapshot-trigger`
+jj config set --repo core.watchman.register-snapshot-trigger false
 OP_START=`jj cur-op`
-jj "$@"
-jj op restore $OP_START
-jj op restore @-
+if jj "$@"; then
+  RESULT=$?
+  echo
+  OP_END=`jj cur-op`
+  if [[ $OP_END == $OP_START ]] then
+    echo "Nothing changed."
+  else
+    echo "Transaction succeeded."
+    jj op restore $OP_START
+    jj op restore $OP_END
+  fi
+else
+  RESULT=$?
+  echo
+  echo "Transaction failed; reverting."
+  jj op restore $OP_START
+fi
+jj config set --repo core.watchman.register-snapshot-trigger $PREV_WATCHMAN_STATE
+exit $RESULT
 ''']
 
 revset-aliases.'ignore()' = 'none()'
