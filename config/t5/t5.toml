@@ -17,6 +17,12 @@ revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk() | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
 aliases.cm = ["commit", "-m"]
+revset-aliases.'bookmarked(r)' = "r & bookmarks()"
+revset-aliases.'prev_bookmarked(r)' = "heads(bookmarked(r))"
+revset-aliases.'earlier_bookmarked(r)' = "fork_point(bookmarked(r)) & ~prev_bookmarked(r)"
+revset-aliases.'next_bookmarked(r)' = "fork_point(bookmarked(r))"
+revset-aliases.'later_bookmarked(r)' = "heads(bookmarked(r)) & ~next_bookmarked(r)"
+
 aliases.ae = ["transaction", "bash", "R=\"${1:-@}\"; [[ $(jj log -T commit_id -r \"empty() & anon() & ~bookmarks() & $R\") ]] && jj ax \"$R\";"]
 aliases.aen = ["ae", "@+"]
 aliases.aep = ["ae", "@-"]

@@ -19,12 +19,22 @@ aliases.prompt_right = [
   "--ignore-working-copy",
 ]
 
+template-aliases.'bookmark_post_colons(commits)' = '''
+commits.map(|c| c.local_bookmarks().map(|b| concat(b, "::")))
+'''
+
+template-aliases.'bookmark_pre_colons(commits)' = '''
+commits.map(|c| c.local_bookmarks().map(|b| concat("::", b)))
+'''
+
 template-aliases.'prompt_left' = '''
 label("prompt", separate(" ",
   format_short_change_id_with_hidden_and_divergent_info(self),
-  self.revset("heads(::@- & bookmarks())").map(|h| h.local_bookmarks().map(|b| concat(b, "::"))),
+  bookmark_post_colons(self.revset("earlier_bookmarked(::self-)")),
+  bookmark_post_colons(self.revset("prev_bookmarked(::self-)")),
   self.local_bookmarks(),
-  self.revset("heads(@+:: & bookmarks())").map(|h| h.local_bookmarks().map(|b| concat("::", b))),
+  bookmark_pre_colons(self.revset("next_bookmarked(self+::)")),
+  bookmark_pre_colons(self.revset("later_bookmarked(self+::)")),
   if(false && self.local_bookmarks().len() == 0,
     self.parents().map(|x| x.local_bookmarks().map(|y| concat(y, "+"))),
   ),
