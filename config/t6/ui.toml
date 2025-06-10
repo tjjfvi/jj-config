@@ -1,5 +1,11 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
+ui.diff-formatter = "difft"
+merge-tools.difft.diff-args = [
+  "--color=always", "$left", "$right",
+  "--sort-paths", "--display=side-by-side-show-both","--syntax-highlight=off",
+]
+
 colors.empty = { fg = "white", italic = true }
 colors."working_copy empty" = { fg = "white", italic = true }
 colors."empty anonymous" = { fg = "bright black" }
@@ -21,17 +27,25 @@ colors."working_copy bookmark" = "#3498db"
 colors."working_copy bookmarks" = "#3498db"
 colors."working_copy local_bookmarks" = "#3498db"
 colors."working_copy remote_bookmarks" = "#3498db"
+colors."private" = "#aaaaaa"
 
 template-aliases.description_placeholder = 'label("anonymous", "...")'
 
 template-aliases.'commit_description(commit)' = '''
 concat(
   if(commit.conflict(), label("conflict", "*")),
-  label(if(commit.empty(), "empty"),
-    if(commit.description(),
-      commit.description().first_line(),
-      changes(commit),
-    )
+  label(
+    separate(" ",
+      if(commit.empty(), "empty"),
+      if(commit.contained_in("wip()"), "private"),
+    ),
+    separate(" ",
+      if(commit.contained_in("wip()"), "#"),
+      if(commit.description(),
+        commit.description().first_line(),
+        changes(commit),
+      ),
+    ),
   )
 )
 '''

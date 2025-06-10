@@ -5,6 +5,7 @@ user.email = "t6@t6.fyi"
 
 ui.default-command = "log"
 ui.always-allow-large-revsets = true
+ui.movement.edit = true
 
 signing.behavior = "drop"
 signing.backend = "gpg"
@@ -19,18 +20,38 @@ revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk()---- | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
 revset-aliases.'immutable_heads()' = 'present(trunk()) | tags()'
+revset-aliases.'private()' = '''
+mutable() & mine() & (anon() | wip() | description(regex:"^_"))
+'''
+revset-aliases.'wip()' = '''
+diff_contains(regex:"(?im)todo([^(\\[]|$)")
+'''
 
-aliases.cm = ["commit", "-m"]
-aliases.dm = ["desc", "-m"]
-aliases.bs = ["bookmark", "set", "-B", "-r"]
-aliases.bp = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
-aliases.bc = ["bookmark", "create", "-r", "@-"]
 aliases.ab = ["abandon"]
+aliases.abr = ["abandon", "--restore-descendants"]
 aliases.re = ["rebase"]
 aliases.l = ["log", "-r"]
 aliases.h = ["log", "-r", "::@"]
-aliases.push = ["git", "push"]
 aliases.fetch = ["git", "fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
+
+aliases.e = ["edit"]
+aliases.ep = ["prev", "--edit"]
+aliases.en = ["next", "--edit"]
+aliases.n = ["new"]
+aliases.np = ["prev", "--no-edit"]
+aliases.nn = ["next", "--no-edit"]
+aliases.nc = ["new", "roots((::@ | @-::) & conflicts())"]
+
+aliases.bs = ["bookmark", "set", "-B", "-r"]
+aliases.bc = ["bash", 'jj new "${2:-@}" && jj bookmark create "$1" -r @']
+aliases.bp = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+
+aliases.am = ["bash", '''jj squash -k -t "${1:-@-}"''']
+aliases.ami = ["bash", '''jj squash -k -t -i "${1:-@-}"''']
+aliases.cm = ["bash", 'jj split -B @ "all()" -m "$*"']
+aliases.cmi = ["bash", 'jj split -B @']
+aliases.dm = ["bash0", 'jj describe -r "$0" -m "$*"']
+aliases.dmi = ["bash0", 'jj describe -r "$0"']
 
 template-aliases.config_root = '"/Users/t6/.config/jj/config/"'
