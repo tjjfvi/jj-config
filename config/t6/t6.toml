@@ -7,6 +7,11 @@ ui.default-command = "log"
 ui.always-allow-large-revsets = true
 ui.movement.edit = true
 
+signing.behavior = "drop"
+signing.backend = "gpg"
+
+git.sign-on-push = true
+
 aliases.preprompt = ["log"]
 
 templates.log = "log"
