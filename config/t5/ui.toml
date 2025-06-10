@@ -72,6 +72,9 @@ separate(" ",
 
 template-aliases.'format_root_commit(root)' = 'separate(" ", format_short_change_id(root.change_id()), root.bookmarks())'
 
+colors."log commit working_copy working_copies" = "blue"
+colors."log commit working_copies" = "blue"
+
 template-aliases.log = '''
 if(root,
   format_root_commit(self),
@@ -81,8 +84,8 @@ if(root,
       if(hidden || divergent, format_short_commit_id(commit_id)),
       bookmarks,
       tags.filter(|x| !x.name().starts_with('latest/')),
-      working_copies,
       commit_description(self),
+      working_copies,
     ),
   )
 )
