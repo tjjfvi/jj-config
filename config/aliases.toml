@@ -1,6 +1,0 @@
-"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
-
-aliases.alias = ["bash", 'jj config list "aliases.$1"']
-aliases.aliasr = ["bash", "jj config list \"revset-aliases.'$1'\""]
-aliases.aliast = ["bash", "jj config list \"template-aliases.'$1'\""]
-aliases.aliasc = ["bash", "jj config list \"colors.'$1'\""]
