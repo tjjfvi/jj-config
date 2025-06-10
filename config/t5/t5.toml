@@ -77,6 +77,10 @@ aliases.ssp = ["ss","@-"]
 
 aliases.q = ["squash","--keep-emptied"]
 aliases.qi = ["q","-i"]
+aliases.qn = ["squash","-r @+"]
+aliases.qni = ["qn","-i"]
+aliases.qp = ["squash","-r @-"]
+aliases.qpi = ["qp","-i"]
 
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 aliases.ri = ["restore", "-i"]
