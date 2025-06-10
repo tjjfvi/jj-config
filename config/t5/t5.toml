@@ -46,6 +46,11 @@ aliases.fetch = ["git", "fetch"]
 aliases.f = ["fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
 
+aliases.c = ["split"]
+aliases.ca = ["c","all()"]
+aliases.cam = ["bash", "jj ca -m \"$*\""]
+# aliases.cam = ["bash","jj split -m \"$@\""]
+
 aliases.xx = ["op","restore"]
 aliases.z = ["undo"]
 
