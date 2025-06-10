@@ -35,7 +35,7 @@ commit.description().first_line()
 '''
 
 template-aliases.'flag_empty(commit)' = '''
-if(commit.empty(), label("flag_empty", "-"))
+if(commit.empty(), label("flag_empty", "="))
 '''
 
 template-aliases.'is_private(commit)' = '''
