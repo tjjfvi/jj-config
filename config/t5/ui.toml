@@ -18,6 +18,7 @@ colors."flag_wc" = "green"
 colors."is_note" = { italic = true, fg = "bright black" }
 colors."change_id" = "blue"
 colors."working_copy change_id" = "blue"
+colors."remote_bookmarks" = { italic = true, fg = "bright black"}
 colors."prompt description" = { italic = true, fg = "white" }
 # colors."bookmark" = "#3498db"
 # colors."bookmarks" = "#3498db"
@@ -82,9 +83,10 @@ if(root,
     separate(" ",
       format_short_change_id_with_hidden_and_divergent_info(self),
       if(hidden || divergent, format_short_commit_id(commit_id)),
-      bookmarks,
+      local_bookmarks,
       tags.filter(|x| !x.name().starts_with('latest/')),
       commit_description(self),
+      remote_bookmarks,
       working_copies,
     ),
   )
