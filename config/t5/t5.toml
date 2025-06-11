@@ -23,10 +23,10 @@ revset-aliases.'earlier_bookmarked(r)' = "fork_point(bookmarked(r)) & ~prev_book
 revset-aliases.'next_bookmarked(r)' = "fork_point(bookmarked(r))"
 revset-aliases.'later_bookmarked(r)' = "heads(bookmarked(r)) & ~next_bookmarked(r)"
 
-aliases.ae = ["bash", "R=\"${1:-@}\"; [[ $(jj log -T commit_id -r \"empty() & anon() & ~bookmarks() & $R\") ]] && jj ax \"$R\";"]
+aliases.ae = ["bash", "R=\"${1:-@}\"; jj ax \"empty() & anon() & ~bookmarks() & ($R)\";"]
 aliases.aen = ["ae", "@+"]
 aliases.aep = ["ae", "@-"]
-aliases.ad = ["bash", "R=\"${1:-@}\"; [[ $(jj log -T commit_id -r \"empty() & ~bookmarks() & $R\") ]] && jj ax \"$R\";"]
+aliases.ad = ["bash", "R=\"${1:-@}\"; jj ax \"empty() & ~bookmarks() & ($R)\";"]
 aliases.adn = ["ad", "@+"]
 aliases.adp = ["ad", "@-"]
 aliases.ax = ["transaction", "bash", "R=\"${1:-@}\"; jj abandon -r \"$R\" && { [[ $R = '@' ]] && jj edit @- || true; };"]
