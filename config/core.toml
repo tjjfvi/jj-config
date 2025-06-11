@@ -22,7 +22,7 @@ aliases.revset-changes = ["revset-to", 'change_id ++ "\n"']
 aliases.revset-commit = ["bash", 'jj revset-to commit_id "latest($1, 1)"']
 aliases.revset-bookmarks = [
   "revset-to",
-  'local_bookmarks.map(|x| concat(x, "\n"))',
+  'local_bookmarks.map(|x| concat(x.name(), "\n"))',
 ]
 
 aliases.preprompt = ["log", "-r @"]
