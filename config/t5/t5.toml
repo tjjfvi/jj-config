@@ -92,6 +92,7 @@ aliases.ri = ["restore", "-i"]
 aliases.prc = ["bash", "gh pr create -H `jj bn`"]
 
 aliases.sync = ["bash", "jj @ ${@:-live} up"]
+aliases.wip = ["bash", "jj dm \"wip: ${*}\""]
 
 aliases.bn = [ "log", "-r", "heads(::@ & bookmarks())", "-T", "bn_local", "--no-graph", ]
 template-aliases.'bn_local' = "self.local_bookmarks().map(|x| x.name())"
