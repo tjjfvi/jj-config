@@ -16,6 +16,8 @@ revsets.log = "log"
 revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk() | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
+revset-aliases.'default()' = "dev"
+
 aliases.cm = ["commit", "-m"]
 revset-aliases.'bookmarked(r)' = "r & bookmarks()"
 revset-aliases.'prev_bookmarked(r)' = "heads(bookmarked(r))"
