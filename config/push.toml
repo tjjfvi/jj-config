@@ -15,7 +15,10 @@ done
 ''']
 
 aliases.finalize = ["transaction", "bash", '''
+set -e
 IFS="|"
-jj rebase -r "reachable($*, main..) ~ ::($*)" -d main
-jj abandon "main..($*)"
+revset="(${*:-none()})"
+jj rebase -r "reachable($revset, trunk()..) ~ ::$revset" -d "trunk()"
+jj abandon "trunk()..$revset"
+jj simplify-parents
 ''']

@@ -19,7 +19,7 @@ aliases.force-track = ["--config", "snapshot.max-new-file-size=0", "st"]
 aliases.cur-op = ["op", "log", "-n1", "--no-graph", "-T", "id.short()"]
 
 aliases.revset-changes = ["revset-to", 'change_id ++ "\n"']
-aliases.revset-commit = ["bash", 'jj revset-to commit_id "latest($1, 1)"']
+aliases.revset-commit = ["bash", 'jj revset-to commit_id "latest(${1:-none()}, 1)"']
 aliases.revset-bookmarks = [
   "revset-to",
   'local_bookmarks.map(|x| concat(x.name(), "\n"))',
