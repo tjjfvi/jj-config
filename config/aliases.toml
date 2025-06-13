@@ -1,6 +1,9 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
 
-aliases.alias = ["bash", 'jj config list "aliases.$1"']
-aliases.aliasr = ["bash", "jj config list \"revset-aliases.'$1'\""]
-aliases.aliast = ["bash", "jj config list \"template-aliases.'$1'\""]
-aliases.aliasc = ["bash", "jj config list \"colors.'$1'\""]
+aliases.alias = ["config-grep", "aliases"]
+aliases.aliasr = ["config-grep", "revset-aliases"]
+aliases.aliast = ["config-grep", "template-aliases"]
+aliases.aliasc = ["config-grep", "colors"]
+
+aliases.config-grep = ["bash", "result=`jj config-grep-inner \"${1}\" \"${2}\"`; [[ -n $result ]] && echo $result || jj config-grep-inner \"${1}\" \"${2}.*?\""]
+aliases.config-grep-inner = ["bash", "jj config list \"$1\" | rg -P \"^${1}\\\\.([\\\"]?)${2}\\\\1(?= = )\" --color=always | sort"]
