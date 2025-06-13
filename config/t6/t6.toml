@@ -5,6 +5,7 @@ user.email = "t6@t6.fyi"
 
 ui.default-command = "log"
 ui.always-allow-large-revsets = true
+ui.movement.edit = true
 
 signing.behavior = "drop"
 signing.backend = "gpg"
@@ -19,16 +20,26 @@ revset-aliases.log = "subgraph(log_heads)"
 revset-aliases.log_heads = "(@ | trunk()---- | bookmarks() | (visible_heads() ~ remote_bookmarks() ~ tags())) ~ ignore() ~ stashed()::"
 
 revset-aliases.'immutable_heads()' = 'present(trunk()) | tags()'
+revset-aliases.'private()' = '''
+(anon() ~ root()) | wip()
+'''
+revset-aliases.'wip()' = '''
+~present(::trunk()) & (description(glob:"...*") | diff_contains(regex:"(?im)todo([^(\\[]|$)"))
+'''
 
-aliases.cm = ["commit", "-m"]
-aliases.dm = ["desc", "-m"]
 aliases.bs = ["bookmark", "set", "-B", "-r"]
 aliases.bp = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
-aliases.bc = ["bookmark", "create", "-r", "@-"]
 aliases.ab = ["abandon"]
 aliases.re = ["rebase"]
 aliases.l = ["log", "-r"]
 aliases.h = ["log", "-r", "::@"]
-aliases.push = ["git", "push"]
 aliases.fetch = ["git", "fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
+
+aliases.bc = ["bash", 'jj new "${2:-@}" && jj bookmark create "$1" -r @']
+aliases.e = ["edit"]
+aliases.n = ["bash", 'jj new -A "${1:-@}"']
+aliases.amend = ["bash", '''jj squash -k -t "${1:-@-}" "${@:2}"''']
+aliases.dm = ["bash0", 'jj describe -r "$0" -m "$*"']
+aliases.cm = ["transaction", "bash", 'jj new --no-edit -B @ -m "$*" && jj amend @-']
+aliases.cmi = ["transaction", "bash", 'jj new --no-edit -B @ -m "$*" && jj amend @- -i && jj describe @-']
