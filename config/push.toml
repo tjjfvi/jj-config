@@ -14,15 +14,11 @@ for bookmark in `jj revset-bookmarks "${@:-@::}"`; do
 done
 ''']
 
-revset-aliases.'push_finalize_base()' = "default()"
-
 aliases.finalize = ["transaction", "bash", '''
+set -e
 IFS="|"
-revset="${*:-'none()'}"
-base='push_finalize_base()'
-jj revset-commit "$revset" &>/dev/null || { echo "Error re revset '$revset'"; exit 1; }
-jj revset-commit "$base" &>/dev/null || { echo "Error re revset 'push_finalize_base()'"; exit 1; }
-jj rebase -r "reachable($*, ($base)..) ~ ::($revset)" -d "${base}"
-jj abandon "($base)..($revset)"
+revset="(${*:-none()})"
+jj rebase -r "reachable($revset, trunk()..) ~ ::$revset" -d "trunk()"
+jj abandon "trunk()..$revset"
 jj simplify-parents
 ''']
