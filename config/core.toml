@@ -5,7 +5,7 @@ core.watchman.register-snapshot-trigger = true
 
 git.write-change-id-header = true
 
-aliases.jj = ["util", "exec", "--", "jj"]
+aliases.jj = []
 aliases.bash0 = ["util", "exec", "--", "bash", "-c"]
 aliases.bash = ["bash0", 'bash -c "$0" "" "$@"']
 aliases.revset-to = ["bash0", '''
