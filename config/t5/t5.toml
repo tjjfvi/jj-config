@@ -3,6 +3,8 @@
 user.name = "vjjft"
 user.email = "vjjft@vjjft.com"
 
+template-aliases.config_root= '"/Users/tom/.config/jj/config/"'
+
 ui.default-command = "log"
 ui.movement.edit = true
 
