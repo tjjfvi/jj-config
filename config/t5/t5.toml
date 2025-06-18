@@ -3,6 +3,8 @@
 user.name = "vjjft"
 user.email = "vjjft@vjjft.com"
 
+template-aliases.config_root= '"/Users/tom/.config/jj/config/"'
+
 ui.default-command = "log"
 ui.movement.edit = true
 
@@ -93,6 +95,10 @@ aliases.qpi = ["qp","-i"]
 
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 aliases.ri = ["restore", "-i"]
+
+aliases.aliasr = ["revset-alias"]
+aliases.aliast = ["template-alias"]
+aliases.aliasc = ["colors"]
 
 aliases.prc = ["bash", "gh pr create -H `jj bn`"]
 
