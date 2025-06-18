@@ -31,6 +31,10 @@ aliases.log-full = ["log", "-T", "builtin_log_compact"]
 aliases.d = ["diff"]
 aliases.hd = ["log", "-r", "dev::@", "--reversed"]
 
+aliases.aliasr = ["revset-alias"]
+aliases.aliast = ["template-alias"]
+aliases.aliasc = ["colors"]
+
 aliases.prc = ["bash", "gh pr create -H `jj bn`"]
 
 
