@@ -1,0 +1,48 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+aliases.conf = ["_conf", ""]
+aliases.alias = ["_conf", "aliases."]
+aliases.revset-alias = ["_conf", "revset-aliases."]
+aliases.template-alias = ["_conf", "template-aliases."]
+aliases.colors = ["_conf", "colors."]
+
+aliases._conf = ["bash0", '''
+exec {keys}< <(jj config-keys | rg "^$0$(printf '"?%s"?\.' "$@")?")
+if [[ -z "$*" ]]; then
+  key=`fzf --style minimal --preview-window down:30% --preview "jj _conf_show '{r}'" <&$keys`
+  if [[ -n "$key" ]]; then
+    jj _conf_show $key
+  fi
+else
+  while IFS="" read -r key; do
+    jj _conf_show "$key"
+  done <&$keys
+fi
+''']
+
+aliases._conf_show = ["config", "list", "--include-defaults", "--include-overridden", "--color=always"]
+
+aliases.config-keys = ["config", "list", "--include-defaults", "-T", 'name ++ "\n"']
+
+colors."config_list value" = "default"
+templates.config_list = "config_list"
+template-aliases.config_list = '''
+label(if(overridden, "overridden"),
+  indent(
+    if(overridden, "# "),
+    concat(
+      name,
+      " ",
+      if(source == "user",
+        label("path", concat("(", path.remove_prefix(config_root), ")")),
+        label("source", concat("(", source, ")")),
+      ),
+      "\n",
+      indent("  ", value),
+      "\n\n",
+    )
+  )
+)
+'''
+
+template-aliases.config_root = ""

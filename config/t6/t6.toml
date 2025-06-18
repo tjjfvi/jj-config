@@ -32,3 +32,5 @@ aliases.h = ["log", "-r", "::@"]
 aliases.push = ["git", "push"]
 aliases.fetch = ["git", "fetch"]
 aliases.log-full = ["log", "-T", "builtin_log_compact"]
+
+template-aliases.config_root = '"/Users/t6/.config/jj/config/"'
